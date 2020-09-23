@@ -1,5 +1,5 @@
 import React, { useState, userEffect, useEffect } from 'react';
-
+// import UserCard from './userCard'
 const UserList = (props) => {
     const [users, setUsers] = useState([]);
 
@@ -14,7 +14,8 @@ const UserList = (props) => {
     return (
         <>
         <div>
-            Will be list of user cards
+            List of user cards
+        {/* <UserCard/> */}
         </div>
         {/* Map through list of user data to return user cards */}
         </>
