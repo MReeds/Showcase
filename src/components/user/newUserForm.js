@@ -1,26 +1,50 @@
 import React, { useState } from "react";
-import { storage } from "./firebase/firebase";
+import * as firebase from "../../config/firebaseConfig.js";
 //add import for storage
-export default function newUserForm() {
+const NewUserForm = (props) => {
+    const allInputs = { imgUrl: '' }
+    const [image, setImage] = useState(null)
+    const [imageAsUrl, setImageAsUrl] = useState(allInputs)
+    // console.log(imageAsFile)?
 
-    const allInputs = {imgUrl: ''}
-    const [imageAsFile, setImageAsFile] = useState('')
-    const [imageAsUrl, setImageAsUrl] = useState(allImputs)
 
-    console.log(imageAsFile)
- const handleImageAsFile = (e) => {
-      const image = e.target.files[0]
-      setImageAsFile(imageFile => (image))
-  }
+    const handleChange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0])
+        }
+    }
+
+   const handleUpload = () => {
+        const uploadTask = firebase.storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error);
+            },
+            () => {
+                firebase.storage.ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+
+                })
+            }
+        )
+
+    }
+
+
     return (
-        <div className="App">
-                  //form for handling file upload
+        <div>
             <form>
                 <input
                     type="file"
-                    // allows you to reach into your file directory and upload image to the browser
+                    onChange={handleChange}
                 />
+                <button onclick={handleUpload}>upload to firebase</button>
             </form>
         </div>
     );
-}
+};
+export default NewUserForm;

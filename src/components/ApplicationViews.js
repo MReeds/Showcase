@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import SC_AUTH from "../components/auth/showcaseAuth";
 import Home from "./home/Home";
+import NewUserForm from '../components/user/newUserForm';
 
 const ApplicationViews = props => {
     return (
@@ -13,9 +14,15 @@ const ApplicationViews = props => {
           }}
         />
         <Route
-        path=""
+        exact path="/"
         render={props => {
             return <Home {...props}/>
+        }}
+        />
+        <Route
+        path="/NewUserForm"
+        render={props => {
+            return <NewUserForm {...props}/>
         }}
         />
         </React.Fragment>
