@@ -7,7 +7,7 @@ const Showcase = () => {
     return (
         <>
         <NavBar />
-        <Home />
+        <div id="firebaseui-auth-container"></div>
         </>
     )
 }
