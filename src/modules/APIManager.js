@@ -5,7 +5,7 @@ const APIManager = {
     createNewUser(userId) {
         return firebase
         .database()
-        .ref("devs/" + userId)
+        .ref("Devs/" + userId)
         .update({
             first_name: false,
             git_hub: false,
@@ -17,12 +17,12 @@ const APIManager = {
     updateUser(obj, userId) {
         return firebase
           .database()
-          .ref("devs/" + userId)
+          .ref("Devs/" + userId)
           .update(obj);
       },
     getUserInfo(userId) {
         return fetch(
-        'https://showcase-2b78f.firebaseio.com/devs.json?orderBy=uid"&equalTo="${userId}"'
+        `https://showcase-2b78f.firebaseio.com/Devs.json?&equalTo="${userId}"`
         )
           .then((resp) => resp.json())
           .catch((error) => {
