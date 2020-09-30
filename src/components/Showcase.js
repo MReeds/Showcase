@@ -1,13 +1,14 @@
 import React from "react";
 import NavBar from "./nav/navBar";
-import Home from "./home/Home";
+import ApplicationViews from './ApplicationViews'
 
 const Showcase = () => {
  
     return (
         <>
         <NavBar />
-        <div id="firebaseui-auth-container"></div>
+        
+        <ApplicationViews/>
         </>
     )
 }
