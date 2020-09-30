@@ -40,6 +40,8 @@ const NewUserForm = (props) => {
         <div>
             <form>
                 <input type="file" onChange={handleUpload} />
+                <input type="file" onChange={handleUpload} />
+                <input type="file" onChange={handleUpload} />
                 {
                     loading ? (
                         <h3>

@@ -8,7 +8,6 @@ const Showcase = () => {
         <>
         <NavBar />
         
-        {/* <div id="firebaseui-auth-container"></div> */}
         <ApplicationViews/>
         </>
     )
