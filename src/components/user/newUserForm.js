@@ -4,9 +4,17 @@ import { MaterialStatesSelect } from '../material/MaterialStatesSelect'
 const NewUserForm = (props) => {
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState({ firstName: "", lastName: "",city: "",stateId: 0,linkedIn: "",resume: "",})
-    const [usStates, setUsStates] = useState('')
-    const [usStateId, setUsStateId] = useState(0)
+    const [user, setUser] = useState({
+        firstName: "",
+        lastName: "",
+        city: "",
+        stateId: 0,
+        linkedIn: "",
+        resume: "",
+    })
+    let [select, setSelect] = useState(false);
+    const [usaState, setUSAState] = useState("")
+    const [usaStates, setNewUSA] = useState([])
 
     const handleNumberfieldChange = evt => {
         const stateToChange = {};
@@ -14,6 +22,19 @@ const NewUserForm = (props) => {
         setUsStates(stateToChange);
 
     };
+    const onSelectHandler = e => {
+        setSelect(true);
+        setUSAState(e.target.value);
+        const stateToChange = { ... };
+        stateToChange["emotion"] = e.target.value;
+        setVerse(stateToChange);
+      };
+
+    const getUSAStates = () => {
+        return APIManager.getAll('states').then(data => {
+            setNewUSA(data);
+        });
+      };
 
 
     const handleFieldChange = e => {
@@ -42,24 +63,28 @@ const NewUserForm = (props) => {
     };
 
 
+
+
+
+
     return (
         < div >
             <form>
-                <input id="firstName" type="input" onChange={handleFieldChange} />
+                <input  id="firstName" type="input" onChange={handleFieldChange} />
                 <input id="LastName" type="input" onChange={handleFieldChange} />
                 <input id="city" type="input" onChange={handleFieldChange} />
                 <input id="linkedin" type="input" onChange={handleUpload} />
                 <input id="resume" type="file" onChange={handleUpload} />
-                <MaterialStatesSelect
+                {/* <MaterialStatesSelect
                     handleNumberfieldChange={handleNumberfieldChange}
-                    {...props, USAStatesArray} />
+                    {...props, USAStatesArray} /> */}
                 {
                     loading ? (
                         <h3>
                             Loading...
                         </h3>
                     ) : (
-                            <img src={image} style={{ width: '300px' }} />
+                            <img src={image} style={{ width: '100px' }} />
                         )
                 }
             </form>
