@@ -10,11 +10,9 @@ import APIManager from "../../modules/APIManager";
 const NewUserForm = (props) => {
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: 0, linkedIn: "", resume: "", });
     let [select, setSelect] = useState(false);
-    const [usaState, setUSAState] = useState("");
     const [usaStateId, setUSAStateId] = useState(0);
-    const [usaStates, setNewUSA] = useState([]);
+  
 
     const handleNumberfieldChange = (evt, name) => {
         const stateToChange = { ...usaStateId };
@@ -22,12 +20,18 @@ const NewUserForm = (props) => {
         setUSAStateId(stateToChange);
         console.log(stateToChange)
     };
+    const [usaState, setUSAState] = useState("");
+    const [usaStates, setNewUSA] = useState([]);
 
+   const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
     const handleFieldChange = e => {
         //   Setting state each time a key stroke happens in the targetted id of a prop from verse
         const stateToChange = { ...user };
         stateToChange[e.target.id] = e.target.value;
         setUser(stateToChange);
+        const secondstateToChange = { ...usaStateId };
+        secondstateToChange[e.target.id] = +e.target.value;
+        setUSAStateId(secondstateToChange);
         console.log(e.target.id)
     };
 
@@ -75,13 +79,6 @@ const NewUserForm = (props) => {
     useEffect(() => {
         getUSAStates();
     }, []);
-
-    // const handleFieldChange = (e) => {
-    //     //   Setting state each time a key stroke happens in the targetted id of a prop from verse
-    //     const stateToChange = { ...user };
-    //     stateToChange[e.target.id] = e.target.value;
-    //     setUser(stateToChange);
-    // };
     const handleUpload = async (e) => {
         let files = e.target.files;
         let data = new FormData();
@@ -99,7 +96,6 @@ const NewUserForm = (props) => {
         setImage(file.secure_url);
         setLoading(false);
     };
-    const [unitedStateId, setCount] = useState("");
     const useStyles = makeStyles((theme) => ({
         formControl: {
             margin: theme.spacing(1),
@@ -109,6 +105,7 @@ const NewUserForm = (props) => {
             marginTop: theme.spacing(2),
         },
     }));
+    const [unitedStateId, setCount] = useState("");
     const classes = useStyles(props);
     const handleChange = (event, name) => {
 
@@ -120,8 +117,8 @@ const NewUserForm = (props) => {
     return (
         <div>
             <form onSubmit={createNewUser}>
-                <input placeholder="FirstName" id="FirstName" type="input" onChange={handleFieldChange} />
-                <input placeholder="LastName" id="LastName" type="input" onChange={handleFieldChange} />
+                <input placeholder="FirstName" id="firstName" type="input" onChange={handleFieldChange} />
+                <input placeholder="LastName" id="lastName" type="input" onChange={handleFieldChange} />
                 <input  placeholder="city" id="city" type="input" onChange={handleFieldChange} />
                 <input placeholder="linkedin"  id="linkedIn" type="input" onChange={handleFieldChange} />
                 <input placeholder="resume"  id="resume" type="file" onChange={handleFieldChange} />
@@ -135,7 +132,7 @@ const NewUserForm = (props) => {
                             className={classes.selectEmpty}
                             displayEmpty
                             labelId="unitedStateId"
-                            id="unitedStateId"
+                            id="stateId"
                             value={unitedStateId}
                             onChange={(e) => {
                                 handleChange(e, "unitedStateId")
