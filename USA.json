@@ -1,4 +1,15 @@
 {
+    "users": [
+        {
+            "id": "1",
+            "firstName": "Mattew",
+            "lastName": "Reeds",
+            "city": "city_string",
+            "linkedIn": "linked_string",
+            "resume": "resume_string",
+            "state_Id": "AL"
+        }
+    ],
     "states": [
         {
             "id": "AL",

@@ -1,94 +1,168 @@
 import React, { useState, useEffect } from "react";
-import APIManager from '../../modules/APIManager'
-import { MaterialStatesSelect } from '../material/MaterialStatesSelect'
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import APIManager from "../../modules/APIManager";
+
 const NewUserForm = (props) => {
     const [image, setImage] = useState("");
-    const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState({
-        firstName: "",
-        lastName: "",
-        city: "",
-        stateId: 0,
-        linkedIn: "",
-        resume: "",
-    })
+    const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: 0, linkedIn: "", resume: "", });
     let [select, setSelect] = useState(false);
-    const [usaState, setUSAState] = useState("")
-    const [usaStates, setNewUSA] = useState([])
+    const [usaState, setUSAState] = useState("");
+    const [usaStateId, setUSAStateId] = useState(0);
+    const [usaStates, setNewUSA] = useState([]);
 
-    const handleNumberfieldChange = evt => {
-        const stateToChange = {};
+    const handleNumberfieldChange = (evt, name) => {
+        const stateToChange = { ...usaStateId };
         stateToChange[evt.target.id] = +evt.target.value;
-        setUsStates(stateToChange);
-
+        setUSAStateId(stateToChange);
+        console.log(stateToChange)
     };
-    const onSelectHandler = e => {
-        setSelect(true);
-        setUSAState(e.target.value);
-        const stateToChange = { ... };
-        stateToChange["emotion"] = e.target.value;
-        setVerse(stateToChange);
-      };
-
-    const getUSAStates = () => {
-        return APIManager.getAll('states').then(data => {
-            setNewUSA(data);
-        });
-      };
-
 
     const handleFieldChange = e => {
         //   Setting state each time a key stroke happens in the targetted id of a prop from verse
         const stateToChange = { ...user };
         stateToChange[e.target.id] = e.target.value;
         setUser(stateToChange);
-    };
-    const handleUpload = async e => {
-        let files = e.target.files
-        let data = new FormData()
-        data.append('file', files[0])
-        data.append('upload_preset', 'showcaseApp')
-        console.log(data)
-        setLoading(true)
-        let responseUrl = 'https://api.cloudinary.com/v1_1/mreeds123/image/upload'
-        let response = await fetch(`${responseUrl}`,
-            {
-                method: "POST",
-                body: data
-            })
-        let file = await response.json()
-        console.log(file)
-        setImage(file.secure_url)
-        setLoading(false)
+        console.log(e.target.id)
     };
 
+    const onSelectHandler = (e) => {
+        setSelect(true);
+        setUSAState(e.target.value);
+        const stateToChange = { ...usaState };
+        stateToChange["usaState"] = e.target.value;
+        setUSAState(stateToChange);
+    };
+
+    const getUSAStates = () => {
+        return APIManager.getAll("states").then((data) => {
+            setNewUSA(data);
+            console.log(data);
+        });
+    };
+    let createNewUser = e => {
+        e.preventDefault();
+        // if a user doesnt write anything for the book or chapter field they will get an alert. If they do then it will post that entry and get all of them
+        if (
+            user.firstName === "" ||
+            user.lastName === "" ||
+            user.city === "" ||
+            user.linkedIn === "" 
+            // user.resume === "" 
+            // user.stateId === ""
+        ) {
+            window.alert("Please fill out all fields");
+        } else {
+            APIManager.post("users", user).then(props.getusers);
+            //   Once manager posts new user and gets the list again its resets the value of the text boxes to an empty string below
+            e.target.firstName.value = "";
+            e.target.lastName.value = "";
+            e.target.city.value = "";
+            e.target.linkedIn.value = "";
+            e.target.resume.value = "";
+            // e.target.stateId.value = "";
+        }
+    };
 
 
 
 
+    useEffect(() => {
+        getUSAStates();
+    }, []);
 
+    // const handleFieldChange = (e) => {
+    //     //   Setting state each time a key stroke happens in the targetted id of a prop from verse
+    //     const stateToChange = { ...user };
+    //     stateToChange[e.target.id] = e.target.value;
+    //     setUser(stateToChange);
+    // };
+    const handleUpload = async (e) => {
+        let files = e.target.files;
+        let data = new FormData();
+        data.append("file", files[0]);
+        data.append("upload_preset", "showcaseApp");
+        console.log(data);
+        setLoading(true);
+        let responseUrl = "https://api.cloudinary.com/v1_1/mreeds123/image/upload";
+        let response = await fetch(`${responseUrl}`, {
+            method: "POST",
+            body: data,
+        });
+        let file = await response.json();
+        console.log(file);
+        setImage(file.secure_url);
+        setLoading(false);
+    };
+    const [unitedStateId, setCount] = useState("");
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 300,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+    }));
+    const classes = useStyles(props);
+    const handleChange = (event, name) => {
+
+        console.log(event.target.value)
+        setCount(event.target.value);
+
+
+    };
     return (
-        < div >
-            <form>
-                <input  id="firstName" type="input" onChange={handleFieldChange} />
-                <input id="LastName" type="input" onChange={handleFieldChange} />
-                <input id="city" type="input" onChange={handleFieldChange} />
-                <input id="linkedin" type="input" onChange={handleUpload} />
-                <input id="resume" type="file" onChange={handleUpload} />
-                {/* <MaterialStatesSelect
-                    handleNumberfieldChange={handleNumberfieldChange}
-                    {...props, USAStatesArray} /> */}
-                {
-                    loading ? (
-                        <h3>
-                            Loading...
-                        </h3>
-                    ) : (
-                            <img src={image} style={{ width: '100px' }} />
-                        )
-                }
+        <div>
+            <form onSubmit={createNewUser}>
+                <input placeholder="FirstName" id="FirstName" type="input" onChange={handleFieldChange} />
+                <input placeholder="LastName" id="LastName" type="input" onChange={handleFieldChange} />
+                <input  placeholder="city" id="city" type="input" onChange={handleFieldChange} />
+                <input placeholder="linkedin"  id="linkedIn" type="input" onChange={handleFieldChange} />
+                <input placeholder="resume"  id="resume" type="file" onChange={handleFieldChange} />
+                <input placeholder="photo"  id="cloudinary" type="file" onChange={handleUpload} />
+                <div>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-helper-label">
+                            Pick Your State
+            </InputLabel>
+                        <Select
+                            className={classes.selectEmpty}
+                            displayEmpty
+                            labelId="unitedStateId"
+                            id="unitedStateId"
+                            value={unitedStateId}
+                            onChange={(e) => {
+                                handleChange(e, "unitedStateId")
+                                onSelectHandler(e)
+                                handleNumberfieldChange(e)
+                            }
+                            }
+                        >
+                            {usaStates.map((usState, i) => {
+                                return (
+                                    <MenuItem key={i} value={usState.id}>
+                                        {usState.name}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                        <FormHelperText>Select One</FormHelperText>
+                    </FormControl>
+                </div>
+                {loading ? (
+                    <h3>Loading...</h3>
+                ) : (
+                        <img src={image} style={{ width: "100px" }} />
+                    )}
+                    <button type="submit">submit</button>
             </form>
-        </div >
+        </div>
     );
 };
 export default NewUserForm;
