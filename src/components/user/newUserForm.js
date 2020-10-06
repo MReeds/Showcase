@@ -8,47 +8,43 @@ import Select from "@material-ui/core/Select";
 import APIManager from "../../modules/APIManager";
 
 const NewUserForm = (props) => {
-    const [image, setImage] = useState("");
-    const [loading, setLoading] = useState(false);
-    let [select, setSelect] = useState(false);
-    const [usaStateId, setUSAStateId] = useState(0);
-  
 
-    const handleNumberfieldChange = (evt, name) => {
-        const stateToChange = { ...usaStateId };
+
+
+
+    const handleStatePick = (evt) => {
+        const stateToChange = { ...user };
         stateToChange[evt.target.id] = +evt.target.value;
-        setUSAStateId(stateToChange);
+        setUser(stateToChange);
         console.log(stateToChange)
+        console.log(`this is handleNUMfieldCHANGE ${stateToChange}`)
     };
-    const [usaState, setUSAState] = useState("");
-    const [usaStates, setNewUSA] = useState([]);
 
-   const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
+    const [usaState, setUSAState] = useState("");
+
+
+
+    //USER STATE OBJECT
+    const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
+
     const handleFieldChange = e => {
         //   Setting state each time a key stroke happens in the targetted id of a prop from verse
         const stateToChange = { ...user };
-        stateToChange[e.target.id] = e.target.value;
+        setUSAState(e.target.value) 
+        stateToChange.stateId = usaState
         setUser(stateToChange);
-        const secondstateToChange = { ...usaStateId };
-        secondstateToChange[e.target.id] = +e.target.value;
-        setUSAStateId(secondstateToChange);
-        console.log(e.target.id)
     };
 
-    const onSelectHandler = (e) => {
-        setSelect(true);
-        setUSAState(e.target.value);
-        const stateToChange = { ...usaState };
-        stateToChange["usaState"] = e.target.value;
-        setUSAState(stateToChange);
-    };
 
+    //this returns a fetch to json database to return an array of objects
     const getUSAStates = () => {
         return APIManager.getAll("states").then((data) => {
-            setNewUSA(data);
+            setUsaStateList(data);
             console.log(data);
         });
     };
+
+    //this will create a new user object and post to api
     let createNewUser = e => {
         e.preventDefault();
         // if a user doesnt write anything for the book or chapter field they will get an alert. If they do then it will post that entry and get all of them
@@ -56,7 +52,7 @@ const NewUserForm = (props) => {
             user.firstName === "" ||
             user.lastName === "" ||
             user.city === "" ||
-            user.linkedIn === "" 
+            user.linkedIn === ""
             // user.resume === "" 
             // user.stateId === ""
         ) {
@@ -75,10 +71,17 @@ const NewUserForm = (props) => {
 
 
 
-
+    // this watches for changes made in usStates
+    const [usaStateList, setUsaStateList] = useState([]);
     useEffect(() => {
         getUSAStates();
     }, []);
+
+    //this handles cloudnairy upload
+
+    const [image, setImage] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const handleUpload = async (e) => {
         let files = e.target.files;
         let data = new FormData();
@@ -96,6 +99,8 @@ const NewUserForm = (props) => {
         setImage(file.secure_url);
         setLoading(false);
     };
+
+
     const useStyles = makeStyles((theme) => ({
         formControl: {
             margin: theme.spacing(1),
@@ -105,24 +110,22 @@ const NewUserForm = (props) => {
             marginTop: theme.spacing(2),
         },
     }));
-    const [unitedStateId, setCount] = useState("");
     const classes = useStyles(props);
-    const handleChange = (event, name) => {
 
-        console.log(event.target.value)
-        setCount(event.target.value);
+    //     // console.log("this is valueProp:",event.target.value)
 
 
-    };
+
+    // };
     return (
         <div>
             <form onSubmit={createNewUser}>
                 <input placeholder="FirstName" id="firstName" type="input" onChange={handleFieldChange} />
                 <input placeholder="LastName" id="lastName" type="input" onChange={handleFieldChange} />
-                <input  placeholder="city" id="city" type="input" onChange={handleFieldChange} />
-                <input placeholder="linkedin"  id="linkedIn" type="input" onChange={handleFieldChange} />
-                <input placeholder="resume"  id="resume" type="file" onChange={handleFieldChange} />
-                <input placeholder="photo"  id="cloudinary" type="file" onChange={handleUpload} />
+                <input placeholder="city" id="city" type="input" onChange={handleFieldChange} />
+                <input placeholder="linkedin" id="linkedIn" type="input" onChange={handleFieldChange} />
+                <input placeholder="resume" id="resume" type="file" onChange={handleFieldChange} />
+                <input placeholder="photo" id="cloudinary" type="file" onChange={handleUpload} />
                 <div>
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-helper-label">
@@ -133,18 +136,14 @@ const NewUserForm = (props) => {
                             displayEmpty
                             labelId="unitedStateId"
                             id="stateId"
-                            value={unitedStateId}
-                            onChange={(e) => {
-                                handleChange(e, "unitedStateId")
-                                onSelectHandler(e)
-                                handleNumberfieldChange(e)
-                            }
-                            }
+                            value={usaState}
+                            
+                            onChange={handleStatePick}
                         >
-                            {usaStates.map((usState, i) => {
+                            {usaStateList.map((item, i) => {
                                 return (
-                                    <MenuItem key={i} value={usState.id}>
-                                        {usState.name}
+                                    <MenuItem key={i} value={item.id}>
+                                        {item.name}
                                     </MenuItem>
                                 );
                             })}
@@ -157,7 +156,7 @@ const NewUserForm = (props) => {
                 ) : (
                         <img src={image} style={{ width: "100px" }} />
                     )}
-                    <button type="submit">submit</button>
+                <button type="submit">submit</button>
             </form>
         </div>
     );
