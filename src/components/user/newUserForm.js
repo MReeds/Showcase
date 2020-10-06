@@ -11,28 +11,29 @@ const NewUserForm = (props) => {
 
 
 
+    const [usaState, setUSAState] = useState("");
 
     const handleStatePick = (evt) => {
         const stateToChange = { ...user };
-        stateToChange[evt.target.id] = +evt.target.value;
+        setUSAState(evt.target.value)
+        stateToChange.stateId = usaState;
         setUser(stateToChange);
-        console.log(stateToChange)
-        console.log(`this is handleNUMfieldCHANGE ${stateToChange}`)
+        
+        console.log('statePicked: ' + usaState);
     };
 
-    const [usaState, setUSAState] = useState("");
 
 
 
     //USER STATE OBJECT
     const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
 
-    const handleFieldChange = e => {
+    const handleFieldChange = evt => {
         //   Setting state each time a key stroke happens in the targetted id of a prop from verse
         const stateToChange = { ...user };
-        setUSAState(e.target.value) 
-        stateToChange.stateId = usaState
+        stateToChange[evt.target.id] = evt.target.value;
         setUser(stateToChange);
+        
     };
 
 
