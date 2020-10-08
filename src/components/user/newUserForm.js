@@ -19,7 +19,7 @@ const NewUserForm = (props) => {
         stateToChange.stateId = usaState;
         setUser(stateToChange);
         
-        console.log('statePicked: ' + usaState);
+        console.log('statePicked: ', usaState.stateId);
     };
 
 
@@ -135,16 +135,16 @@ const NewUserForm = (props) => {
                             displayEmpty
                             labelId="unitedStateId"
                             id="stateId"
-                            value={usaState}
+                            value={usaState || ""}
                             onChange={handleStatePick}
                         >
                             {usaStateList.map((item, i) => {
-                                return (
+                                
                                     <MenuItem key={i} value={item.id}>
                                         {item.name}
                                     </MenuItem>
                                 );
-                            })}
+                            }}
                         </Select>
                         <FormHelperText>Select One</FormHelperText>
                     </FormControl>
