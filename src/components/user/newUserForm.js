@@ -29,7 +29,6 @@ const NewUserForm = (props) => {
     const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
 
     const handleFieldChange = evt => {
-        //   Setting state each time a key stroke happens in the targetted id of a prop from verse
         const stateToChange = { ...user };
         stateToChange[evt.target.id] = evt.target.value;
         setUser(stateToChange);
@@ -53,9 +52,9 @@ const NewUserForm = (props) => {
             user.firstName === "" ||
             user.lastName === "" ||
             user.city === "" ||
-            user.linkedIn === ""
-            // user.resume === "" 
-            // user.stateId === ""
+            user.linkedIn === "" ||
+            // user.resume === "" ||
+            user.stateId === "" 
         ) {
             window.alert("Please fill out all fields");
         } else {
@@ -66,7 +65,6 @@ const NewUserForm = (props) => {
             e.target.city.value = "";
             e.target.linkedIn.value = "";
             e.target.resume.value = "";
-            // e.target.stateId.value = "";
         }
     };
 
@@ -138,7 +136,6 @@ const NewUserForm = (props) => {
                             labelId="unitedStateId"
                             id="stateId"
                             value={usaState}
-                            
                             onChange={handleStatePick}
                         >
                             {usaStateList.map((item, i) => {

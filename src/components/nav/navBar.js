@@ -2,10 +2,10 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
 const NavBar = (props) => {
-    
-    
-    return (
-        <header>
+
+
+  return (
+    <header>
       <h1 className="site-title">
         Showcase
       </h1>
@@ -15,8 +15,11 @@ const NavBar = (props) => {
             <Link className="nav-link" to="/"> Home </Link>
           </li>
           <li>
-                <Link className="nav-link" to="/login">Account Photo</Link>
-              </li>
+            <Link className="nav-link" to="/newUserForm"> New User </Link>
+          </li>
+          <li>
+            <Link className="nav-link" to="/login">Account Photo</Link>
+          </li>
         </ul>
       </nav>
     </header>
