@@ -10,15 +10,18 @@ import APIManager from "../../modules/APIManager";
 const NewUserForm = (props) => {
 
 
-
-    const [usaState, setUSAState] = useState("");
+    let myState = {
+        id: "AL",
+        name: "Alabama"
+    }
+    const [usaState, setUSAState] = useState(myState);
 
     const handleStatePick = (evt) => {
         const stateToChange = { ...user };
         setUSAState(evt.target.value)
         stateToChange.stateId = usaState;
         setUser(stateToChange);
-        
+
         console.log('statePicked: ', usaState.stateId);
     };
 
@@ -30,9 +33,9 @@ const NewUserForm = (props) => {
 
     const handleFieldChange = evt => {
         const stateToChange = { ...user };
-        stateToChange[evt.target.id] = evt.target.value;
+        stateToChange[evt.target.id] = + evt.target.value;
         setUser(stateToChange);
-        
+
     };
 
 
@@ -54,7 +57,7 @@ const NewUserForm = (props) => {
             user.city === "" ||
             user.linkedIn === "" ||
             // user.resume === "" ||
-            user.stateId === "" 
+            user.stateId === ""
         ) {
             window.alert("Please fill out all fields");
         } else {
@@ -135,18 +138,20 @@ const NewUserForm = (props) => {
                             displayEmpty
                             labelId="unitedStateId"
                             id="stateId"
-                            value={usaState || ""}
+                            value={usaState}
                             onChange={handleStatePick}
                         >
-                            {usaStateList.map((item, i) => {
-                                
-                                    <MenuItem key={i} value={item.id}>
-                                        {item.name}
-                                    </MenuItem>
-                                );
-                            }}
+                            <MenuItem value="" disabled>
+                            </MenuItem>
+                            {usaStateList.map((item, i) => (
+
+                                <MenuItem key={i} id={"stateId"} value={item}>
+                                    {item.name}
+                                </MenuItem>
+
+                            ))}
                         </Select>
-                        <FormHelperText>Select One</FormHelperText>
+                            <FormHelperText>{usaState.name}</FormHelperText>
                     </FormControl>
                 </div>
                 {loading ? (
