@@ -10,16 +10,15 @@ import APIManager from "../../modules/APIManager";
 const NewUserForm = (props) => {
 
 
-    let myState = {
-        id: "AL",
-        name: "Alabama"
-    }
-    const [usaState, setUSAState] = useState(myState);
+    let [usaState, setUSAState] = useState("AL");
 
-    const handleStatePick = (evt) => {
-        const stateToChange = { ...user };
+    let handleStatePick = (evt) => {
         setUSAState(evt.target.value)
-        stateToChange.stateId = usaState;
+        // setUser(({...user}) => user.stateId = usaState)
+        const stateToChange = { ...user };
+        // stateToChange[evt.target.id] = + usaState
+
+        stateToChange.stateId = evt.target.value
         setUser(stateToChange);
 
         console.log('statePicked: ', usaState.stateId);
@@ -29,11 +28,11 @@ const NewUserForm = (props) => {
 
 
     //USER STATE OBJECT
-    const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: "", linkedIn: "", resume: "", });
+    const [user, setUser] = useState({ firstName: "", lastName: "", city: "", stateId: usaState, linkedIn: "", resume: "", });
 
     const handleFieldChange = evt => {
         const stateToChange = { ...user };
-        stateToChange[evt.target.id] = + evt.target.value;
+        stateToChange[evt.target.id] = evt.target.value;
         setUser(stateToChange);
 
     };
@@ -145,7 +144,7 @@ const NewUserForm = (props) => {
                             </MenuItem>
                             {usaStateList.map((item, i) => (
 
-                                <MenuItem key={i} id={"stateId"} value={item}>
+                                <MenuItem key={i} id={"stateId"} value={item.id}>
                                     {item.name}
                                 </MenuItem>
 
