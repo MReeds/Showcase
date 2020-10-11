@@ -21,7 +21,7 @@ const NewUserForm = (props) => {
         stateToChange.stateId = evt.target.value
         setUser(stateToChange);
 
-        console.log('statePicked: ', usaState.stateId);
+        console.log('statePicked: ', user.stateId);
     };
 
 
@@ -60,7 +60,7 @@ const NewUserForm = (props) => {
         ) {
             window.alert("Please fill out all fields");
         } else {
-            APIManager.post("users", user).then(props.getusers);
+            APIManager.post(user,"users").then(props.getusers);
             //   Once manager posts new user and gets the list again its resets the value of the text boxes to an empty string below
             e.target.firstName.value = "";
             e.target.lastName.value = "";

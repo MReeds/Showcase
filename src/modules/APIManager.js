@@ -31,9 +31,10 @@ let APIManager = {
 
         return fetch(`${remoteURL}/${database}`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+               },
             body: JSON.stringify(newObject)
         }).then(data => data.json())
     },
