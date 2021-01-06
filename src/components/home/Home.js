@@ -1,10 +1,10 @@
 import React from 'react';
-import UserList from '../user/userList';
+import {List} from '../user/List';
 
 const Home = () => {
     return (
         <div>
-            <UserList />
+            <List />
         </div>
     )
 }

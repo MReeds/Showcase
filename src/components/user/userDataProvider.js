@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import Base_Url from "../../constants/userConstant";
+import {Base_Url} from "../../constants/userConstant";
 
 // The context is imported and used by individual components that need data
 export const DataContext = createContext()
@@ -50,10 +50,10 @@ export const UserProvider = (props) => {
         allows any child elements to access them.
     */
     return (
-        <UserContext.Provider value={{
+        <DataContext.Provider value={{
             users, user, getAll, get, add, edit, setUsers, setUser
         }}>
             {props.children}
-        </UserContext.Provider>
+        </DataContext.Provider>
     )
 }

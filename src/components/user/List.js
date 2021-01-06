@@ -1,7 +1,8 @@
 import React, { useEffect, useContext } from "react";
-import DataContext from "../user/userDataProvider";
+import {DataContext} from "./userDataProvider";
+import Card from "./Card";
 
-export const UserList = () => {
+export const List = () => {
   const { users, getAll } = useContext(DataContext);
 
   useEffect(() => {
@@ -10,9 +11,9 @@ export const UserList = () => {
 
   return (
     <>
-      <div classname="users">
+      <div className="users">
         {users.map((user) => (
-          <User key={user.id} user={user} />
+          <Card key={user.id} user={user} />
         ))}
       </div>
     </>
