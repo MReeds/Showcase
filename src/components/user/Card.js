@@ -1,8 +1,9 @@
 import React from "react";
 
 const Card = (props) => {
+    
   const user = props.user;
-  
+
   return (
     <div>
       <h3>
