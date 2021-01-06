@@ -2,16 +2,12 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import Home from "./home/Home";
 import NewUserForm from '../components/user/newUserForm';
+import UserProvider from "./user/userDataProvider";
 
 const ApplicationViews = props => {
     return (
-      <React.Fragment>
-        {/* <Route
-          path="/login"
-          render={props => {
-            return <SC_AUTH providers={["github"]} redirect_path={""} />;
-          }}
-        /> */}
+
+      <UserProvider>
         <Route
         exact path="/"
         render={props => {
@@ -24,7 +20,7 @@ const ApplicationViews = props => {
             return <NewUserForm {...props}/>
         }}
         />
-        </React.Fragment>
+        </UserProvider>
     )}
 
 export default ApplicationViews

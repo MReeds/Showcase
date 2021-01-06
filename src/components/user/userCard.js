@@ -7,7 +7,6 @@ const UserCard = (props) => {
             <h3>Name </h3>
             {/* Hyper Link to your user specified account */}
             
-            <h2>city, State</h2>
             <picture>{/* app photo slide show */}</picture>
             <div>
                 <ul>
