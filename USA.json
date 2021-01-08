@@ -4,13 +4,23 @@
       "id": 1,
       "firstName": "Matthew",
       "lastName": "Reeds",
-      "linkedIn": "linked_string"
+      "linkedIn": "https://www.linkedin.com/in/mreeds/",
+      "bio": "I took a leap of faith into technology with an eagerness to learn and a desire to succeed.",
+      "phone": "(615) 389-1610",
+      "language": "Python / Django - C# / .NET Core",
+      "portfolio": "https://mreeds.github.io/",
+      "github": "https://github.com/MReeds"
     },
     {
       "id": 2,
-      "firstName": "STEPHEN",
-      "lastName": "SENFT",
-      "linkedIn": "sss"
+      "firstName": "Stephen",
+      "lastName": "Senft",
+      "linkedIn": "https://www.linkedin.com/in/stephen-senft/",
+      "bio": "Over the past year, I’ve grown and learned a lot about development and I look forward to growing as a member of the Nashville tech community.",
+      "phone": "(615) 689-0906",
+      "language": "C# / .NET Core - Python / Django",
+      "portfolio": "",
+      "github": "https://github.com/stephensenft21"
     }
   ]
 }

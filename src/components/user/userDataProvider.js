@@ -6,8 +6,18 @@ export const DataContext = createContext()
 
 // This component establishes what data can be used.
 export const UserProvider = (props) => {
+    const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([])
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(
+        {firstName: "",
+        lastName: "", 
+        bio: "",
+        phone: "",
+        language: "",
+        portfolio: "",
+        linkedIn: "",
+        github: ""}
+    )
 
     const getAll = () => {
         return fetch(`${Base_Url}/users`)
@@ -51,7 +61,7 @@ export const UserProvider = (props) => {
     */
     return (
         <DataContext.Provider value={{
-            users, user, getAll, get, add, edit, setUsers, setUser
+            users, user, loading, getAll, get, add, edit, setUsers, setUser, setLoading
         }}>
             {props.children}
         </DataContext.Provider>
